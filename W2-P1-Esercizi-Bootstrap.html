@@ -1,0 +1,692 @@
+<!-- Crea una pagina responsive per mostrarci i tuoi album musicali preferiti.
+
+In questa pagina ci sarà una tua piccola biografia, i migliori album della tua vita, i peggiori che hai mai sentito, 
+e qualsiasi altra cosa relativa alla musica che ami.
+
+
+
+REGOLE:
+
+Il progetto dev'essere caricato in una nuova repository su GitHub e linkata al tuo Docente.
+Puoi usare Google / StackOverflow, MA ti suggeriamo caldamente di riferirti principalmente alla documentazione fornita, 
+per non perderti in ricerche infruttuose per troppo tempo.
+
+Prova il tuo lavoro su varie risoluzioni di schermo, ingrandendo e rimpicciolendo la finestra, 
+e soprattutto usando i developer tools del browser che forniscono l'emulatore di svariati device sul quale potrai vedere esattamente come si comporta il tuo layout.
+
+Usa le classi di Bootstrap4.6 per creare la griglia responsive quando necessario.
+Usa container > row > col in questo ordine per ottenere un layout responsive perfetto.
+
+NOTE:
+Non c'è una design preciso da seguire, dai sfogo alla tua creatività. L'unica cosa importante è che sia responsive!
+Fai qualche ricerca nel web per trarre ispirazione su come rappresentare un progetto musicale con svariate copertine di dischi.
+Può essere simile ad Amazon Music, Spotify, o Apple Music, o qualsiasi altra collezione di dischi là fuori nel world wide web.
+
+
+
+CONSIGLIO: Concentrati sulla struttura e la responsività prima, quando quella funziona puoi dedicarti alla parte grafica e di dettaglio.
+
+
+ESERCIZI:
+
+1) Andrai a creare un componente per rappresentare la carta del tuo album, che riutilizzerai in tutto il progetto. 
+Bootstrap ti dà disponibili alcuni componenti per card e immagini. 
+Puoi scegliere di partire da quelli e modificarli, oppure partire da zero e creare i tuoi componenti via CSS. Gli elementi necessari sono:  
+
+L'elemento Card
+L'immagine di copertina dell'album
+Il titolo dell'album
+Il gruppo / artista / dj dell'album
+Il genere dell'album
+La durata dell'album
+
+NB: Assicurati di applicare le stesse regole di stile a tutti i componenti album che userai nella pagina per mantenere la coerenza degli elementi e degli stili.
+
+
+
+2)  Implementa una navigation bar usando il componente boostrap apposito.
+
+     Questa navigazione dovrà linkare ogni sezione nella tua pagina.
+
+
+3) Crea una sezione responsive per i tuoi album preferiti.
+
+     In questa sezione dovrai avere:
+
+4 album per linea quando lo schermo è molto grande
+3 album per linea quando lo schermo ha una dimensione intermedia (tablet o simili)
+2 album per linea qunado lo schermo è molto piccolo (mobile)
+
+4) Crea una sezione per le recensioni degli album.
+
+      Prendi un album che ti piace molto e crea una sezione con:
+
+Una grande immagine di copertina
+Titolo
+Band
+Durata
+Genere
+Tracce dell'album ( in una tabella. Trovala tra i componenti Bootstrap ) 
+... e qualsiasi cosa ti venga in mente di interessante che lo riguardi!
+
+5) La lista dei peggiori album mai sentiti! Seleziona gli album che davvero non sopporti o qualcosa che pensi sia sopravvalutato e inseriscilo nella "hall of shame" in forma di tabella!
+
+
+6) Tutte copertine! Tappezza una sezione di copertine di album. Solo immagini in un layout a griglia senza spazi fra di loro, con le immagini alla stessa altezza. Inserisci almeno 20 immagini per avere un bell'effetto.
+
+
+EXTRA) Aggiungi un bottone ad ogni sezione, cliccandolo il corpo della sezione dovrà apparire (se nascosto) o nascondersi (se visibile).
+
+SUGGERIMENTO: vedi se esiste un componente Bootstrap che faccia al caso tuo. Se non dovessi trovarlo puoi sempre raggiungere lo stesso effetto usando la normale manipolazione del DOM 
+
+EXTRA) Aggiungi nel footer, al momento del caricamento della pagina, il numero di album presenti nella pagina.
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./bootstrap-5.2.3-dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="./Style.css" />
+    <title>Esercizio Bootstrap</title>
+  </head>
+  <body>
+    <header>
+      <nav class="navbar navbar-expand-lg bg-light fixed-top mb-3">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">My Album</a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a
+                  class="nav-link active"
+                  aria-current="page"
+                  href="#best-album"
+                  >Home</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#reviews-album">Reviews Album</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#hall-of-shame">Hall of Shame</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#carpet">Carpet</a>
+              </li>
+            </ul>
+            <form class="d-flex" role="search">
+              <input
+                class="form-control me-2"
+                type="search"
+                placeholder="Search"
+                aria-label="Search"
+              />
+              <button class="btn btn-outline-success" type="submit">
+                Search
+              </button>
+            </form>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <main>
+      <section>
+        <p class="h1 text-center" id="best-album">Best Album</p>
+        <div class="container">
+          <div
+            class="row row-cols-xl-4 row-cols-lg-4 row-cols-md-3 row-cols-sm-2 row-cols-2 gy-5 text-center mx-auto justify-content-center"
+          >
+            <div class="col">
+              <div class="card" style="width: 100%">
+                <img
+                  src="./Assets/91Ph+uTyyxL._AC_SL1500_.jpg"
+                  class="card-img-top"
+                  alt="Queen"
+                />
+                <div class="card-body">
+                  <h4 class="card-title">Bohemian Rhapsody</h4>
+                  <h5 class="card-subtitle mb-2 text-muted">Queen</h5>
+                  <h6 class="card-subtitle mb-2 text-muted">Rock</h6>
+                  <p class="card-text">1 hour and 30 minutes</p>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="card" style="width: 100%">
+                <img
+                  src="./Assets/91Ph+uTyyxL._AC_SL1500_.jpg"
+                  class="card-img-top"
+                  alt="Queen"
+                />
+                <div class="card-body">
+                  <h4 class="card-title">Bohemian Rhapsody</h4>
+                  <h5 class="card-subtitle mb-2 text-muted">Queen</h5>
+                  <h6 class="card-subtitle mb-2 text-muted">Rock</h6>
+                  <p class="card-text">1 hour and 30 minutes</p>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="card" style="width: 100%">
+                <img
+                  src="./Assets/91Ph+uTyyxL._AC_SL1500_.jpg"
+                  class="card-img-top"
+                  alt="Queen"
+                />
+                <div class="card-body">
+                  <h4 class="card-title">Bohemian Rhapsody</h4>
+                  <h5 class="card-subtitle mb-2 text-muted">Queen</h5>
+                  <h6 class="card-subtitle mb-2 text-muted">Rock</h6>
+                  <p class="card-text">1 hour and 30 minutes</p>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="card" style="width: 100%">
+                <img
+                  src="./Assets/91Ph+uTyyxL._AC_SL1500_.jpg"
+                  class="card-img-top"
+                  alt="Queen"
+                />
+                <div class="card-body">
+                  <h4 class="card-title">Bohemian Rhapsody</h4>
+                  <h5 class="card-subtitle mb-2 text-muted">Queen</h5>
+                  <h6 class="card-subtitle mb-2 text-muted">Rock</h6>
+                  <p class="card-text">1 hour and 30 minutes</p>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="card" style="width: 100%">
+                <img
+                  src="./Assets/91Ph+uTyyxL._AC_SL1500_.jpg"
+                  class="card-img-top"
+                  alt="Queen"
+                />
+                <div class="card-body">
+                  <h4 class="card-title">Bohemian Rhapsody</h4>
+                  <h5 class="card-subtitle mb-2 text-muted">Queen</h5>
+                  <h6 class="card-subtitle mb-2 text-muted">Rock</h6>
+                  <p class="card-text">1 hour and 30 minutes</p>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="card" style="width: 100%">
+                <img
+                  src="./Assets/91Ph+uTyyxL._AC_SL1500_.jpg"
+                  class="card-img-top"
+                  alt="Queen"
+                />
+                <div class="card-body">
+                  <h4 class="card-title">Bohemian Rhapsody</h4>
+                  <h5 class="card-subtitle mb-2 text-muted">Queen</h5>
+                  <h6 class="card-subtitle mb-2 text-muted">Rock</h6>
+                  <p class="card-text">1 hour and 30 minutes</p>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="card" style="width: 100%">
+                <img
+                  src="./Assets/91Ph+uTyyxL._AC_SL1500_.jpg"
+                  class="card-img-top"
+                  alt="Queen"
+                />
+                <div class="card-body">
+                  <h4 class="card-title">Bohemian Rhapsody</h4>
+                  <h5 class="card-subtitle mb-2 text-muted">Queen</h5>
+                  <h6 class="card-subtitle mb-2 text-muted">Rock</h6>
+                  <p class="card-text">1 hour and 30 minutes</p>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="card" style="width: 100%">
+                <img
+                  src="./Assets/91Ph+uTyyxL._AC_SL1500_.jpg"
+                  class="card-img-top"
+                  alt="Queen"
+                />
+                <div class="card-body">
+                  <h4 class="card-title">Bohemian Rhapsody</h4>
+                  <h5 class="card-subtitle mb-2 text-muted">Queen</h5>
+                  <h6 class="card-subtitle mb-2 text-muted">Rock</h6>
+                  <p class="card-text">1 hour and 30 minutes</p>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="card" style="width: 100%">
+                <img
+                  src="./Assets/91Ph+uTyyxL._AC_SL1500_.jpg"
+                  class="card-img-top"
+                  alt="Queen"
+                />
+                <div class="card-body">
+                  <h4 class="card-title">Bohemian Rhapsody</h4>
+                  <h5 class="card-subtitle mb-2 text-muted">Queen</h5>
+                  <h6 class="card-subtitle mb-2 text-muted">Rock</h6>
+                  <p class="card-text">1 hour and 30 minutes</p>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="card" style="width: 100%">
+                <img
+                  src="./Assets/91Ph+uTyyxL._AC_SL1500_.jpg"
+                  class="card-img-top"
+                  alt="Queen"
+                />
+                <div class="card-body">
+                  <h4 class="card-title">Bohemian Rhapsody</h4>
+                  <h5 class="card-subtitle mb-2 text-muted">Queen</h5>
+                  <h6 class="card-subtitle mb-2 text-muted">Rock</h6>
+                  <p class="card-text">1 hour and 30 minutes</p>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="card" sstyle="width: 100%">
+                <img
+                  src="./Assets/91Ph+uTyyxL._AC_SL1500_.jpg"
+                  class="card-img-top"
+                  alt="Queen"
+                />
+                <div class="card-body">
+                  <h4 class="card-title">Bohemian Rhapsody</h4>
+                  <h5 class="card-subtitle mb-2 text-muted">Queen</h5>
+                  <h6 class="card-subtitle mb-2 text-muted">Rock</h6>
+                  <p class="card-text">1 hour and 30 minutes</p>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="card" style="width: 100%">
+                <img
+                  src="./Assets/91Ph+uTyyxL._AC_SL1500_.jpg"
+                  class="card-img-top"
+                  alt="Queen"
+                />
+                <div class="card-body">
+                  <h4 class="card-title">Bohemian Rhapsody</h4>
+                  <h5 class="card-subtitle mb-2 text-muted">Queen</h5>
+                  <h6 class="card-subtitle mb-2 text-muted">Rock</h6>
+                  <p class="card-text">1 hour and 30 minutes</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <button type="button" class="btn btn-primary">Nascondi</button>
+        </div>
+      </section>
+      <section>
+        <p class="h1 text-center" id="reviews-album">Reviews Album</p>
+        <div class="container">
+          <div class="card mb-3" style="max-width: 1500px">
+            <div class="row g-0">
+              <div class="col-md-4">
+                <img
+                  src="./Assets/91Ph+uTyyxL._AC_SL1500_.jpg"
+                  class="img-fluid rounded-start"
+                  alt="Queen"
+                />
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                  <h5 class="card-title">Bohemian Rhapsody</h5>
+                  <p class="card-text">
+                    Queen <br />
+                    1 hour and 30 minutes <br />
+                    Rock
+                  </p>
+                  <p class="card-text">
+                    <small class="text-muted">Last updated 3 mins ago</small>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">N°</th>
+                <th scope="col" colspan="2">Traccia</th>
+                <th scope="col">Durata</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">1</th>
+                <td colspan="2">Bohemian Rapsody</td>
+                <td>4:00</td>
+              </tr>
+              <tr>
+                <th scope="row">2</th>
+                <td colspan="2">Bohemian Rapsody</td>
+                <td>4:00</td>
+              </tr>
+              <tr>
+                <th scope="row">3</th>
+                <td colspan="2">Bohemian Rapsody</td>
+                <td>4:00</td>
+              </tr>
+              <tr>
+                <th scope="row">4</th>
+                <td colspan="2">Bohemian Rapsody</td>
+                <td>4:00</td>
+              </tr>
+              <tr>
+                <th scope="row">5</th>
+                <td colspan="2">Bohemian Rapsody</td>
+                <td>4:00</td>
+              </tr>
+              <tr>
+                <th scope="row">6</th>
+                <td colspan="2">Bohemian Rapsody</td>
+                <td>4:00</td>
+              </tr>
+              <tr>
+                <th scope="row">7</th>
+                <td colspan="2">Bohemian Rapsody</td>
+                <td>4:00</td>
+              </tr>
+              <tr>
+                <th scope="row">8</th>
+                <td colspan="2">Bohemian Rapsody</td>
+                <td>4:00</td>
+              </tr>
+            </tbody>
+          </table>
+          <button type="button" class="btn btn-primary">Nascondi</button>
+        </div>
+      </section>
+      <section>
+        <p class="h1 text-center" id="hall-of-shame">Hall of Shame</p>
+        <div class="container">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Cover</th>
+                <th scope="col" colspan="2">Album</th>
+                <th scope="col">Gruppo</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">
+                  <img
+                    src="./Assets/91Ph+uTyyxL._AC_SL1500_.jpg"
+                    class="shame"
+                    alt="Queen"
+                  />
+                </th>
+                <td colspan="2">Bohemian Rapsody</td>
+                <td>Queen</td>
+              </tr>
+              <tr>
+                <th scope="row">
+                  <img
+                    src="./Assets/91Ph+uTyyxL._AC_SL1500_.jpg"
+                    class="shame"
+                    alt="Queen"
+                  />
+                </th>
+                <td colspan="2">Bohemian Rapsody</td>
+                <td>Queen</td>
+              </tr>
+              <tr>
+                <th scope="row">
+                  <img
+                    src="./Assets/91Ph+uTyyxL._AC_SL1500_.jpg"
+                    class="shame"
+                    alt="Queen"
+                  />
+                </th>
+                <td colspan="2">Bohemian Rapsody</td>
+                <td>Queen</td>
+              </tr>
+              <tr>
+                <th scope="row">
+                  <img
+                    src="./Assets/91Ph+uTyyxL._AC_SL1500_.jpg"
+                    class="shame"
+                    alt="Queen"
+                  />
+                </th>
+                <td colspan="2">Bohemian Rapsody</td>
+                <td>Queen</td>
+              </tr>
+              <tr>
+                <th scope="row">
+                  <img
+                    src="./Assets/91Ph+uTyyxL._AC_SL1500_.jpg"
+                    class="shame"
+                    alt="Queen"
+                  />
+                </th>
+                <td colspan="2">Bohemian Rapsody</td>
+                <td>Queen</td>
+              </tr>
+              <tr>
+                <th scope="row">
+                  <img
+                    src="./Assets/91Ph+uTyyxL._AC_SL1500_.jpg"
+                    class="shame"
+                    alt="Queen"
+                  />
+                </th>
+                <td colspan="2">Bohemian Rapsody</td>
+                <td>Queen</td>
+              </tr>
+              <tr>
+                <th scope="row">
+                  <img
+                    src="./Assets/91Ph+uTyyxL._AC_SL1500_.jpg"
+                    class="shame"
+                    alt="Queen"
+                  />
+                </th>
+                <td colspan="2">Bohemian Rapsody</td>
+                <td>Queen</td>
+              </tr>
+              <tr>
+                <th scope="row">
+                  <img
+                    src="./Assets/91Ph+uTyyxL._AC_SL1500_.jpg"
+                    class="shame"
+                    alt="Queen"
+                  />
+                </th>
+                <td colspan="2">Bohemian Rapsody</td>
+                <td>Queen</td>
+              </tr>
+            </tbody>
+          </table>
+          <button type="button" class="btn btn-primary">Nascondi</button>
+        </div>
+      </section>
+      <section>
+        <p class="h1 text-center" id="carpet">Carpet</p>
+        <div class="container">
+          <div
+            class="row row-cols-xl-4 row-cols-lg-4 row-cols-md-3 row-cols-sm-2 row-cols-2 gx-0 mx-auto justify-content-center"
+          >
+            <div class="col">
+              <img
+                src="./Assets/91Ph+uTyyxL._AC_SL1500_.jpg"
+                class="img-fluid"
+                alt="Queen"
+              />
+            </div>
+            <div class="col">
+              <img
+                src="./Assets/91Ph+uTyyxL._AC_SL1500_.jpg"
+                class="img-fluid"
+                alt="Queen"
+              />
+            </div>
+            <div class="col">
+              <img
+                src="./Assets/91Ph+uTyyxL._AC_SL1500_.jpg"
+                class="img-fluid"
+                alt="Queen"
+              />
+            </div>
+            <div class="col">
+              <img
+                src="./Assets/91Ph+uTyyxL._AC_SL1500_.jpg"
+                class="img-fluid"
+                alt="Queen"
+              />
+            </div>
+            <div class="col">
+              <img
+                src="./Assets/91Ph+uTyyxL._AC_SL1500_.jpg"
+                class="img-fluid"
+                alt="Queen"
+              />
+            </div>
+            <div class="col">
+              <img
+                src="./Assets/91Ph+uTyyxL._AC_SL1500_.jpg"
+                class="img-fluid"
+                alt="Queen"
+              />
+            </div>
+            <div class="col">
+              <img
+                src="./Assets/91Ph+uTyyxL._AC_SL1500_.jpg"
+                class="img-fluid"
+                alt="Queen"
+              />
+            </div>
+            <div class="col">
+              <img
+                src="./Assets/91Ph+uTyyxL._AC_SL1500_.jpg"
+                class="img-fluid"
+                alt="Queen"
+              />
+            </div>
+            <div class="col">
+              <img
+                src="./Assets/91Ph+uTyyxL._AC_SL1500_.jpg"
+                class="img-fluid"
+                alt="Queen"
+              />
+            </div>
+            <div class="col">
+              <img
+                src="./Assets/91Ph+uTyyxL._AC_SL1500_.jpg"
+                class="img-fluid"
+                alt="Queen"
+              />
+            </div>
+            <div class="col">
+              <img
+                src="./Assets/91Ph+uTyyxL._AC_SL1500_.jpg"
+                class="img-fluid"
+                alt="Queen"
+              />
+            </div>
+            <div class="col">
+              <img
+                src="./Assets/91Ph+uTyyxL._AC_SL1500_.jpg"
+                class="img-fluid"
+                alt="Queen"
+              />
+            </div>
+            <div class="col">
+              <img
+                src="./Assets/91Ph+uTyyxL._AC_SL1500_.jpg"
+                class="img-fluid"
+                alt="Queen"
+              />
+            </div>
+            <div class="col">
+              <img
+                src="./Assets/91Ph+uTyyxL._AC_SL1500_.jpg"
+                class="img-fluid"
+                alt="Queen"
+              />
+            </div>
+            <div class="col">
+              <img
+                src="./Assets/91Ph+uTyyxL._AC_SL1500_.jpg"
+                class="img-fluid"
+                alt="Queen"
+              />
+            </div>
+            <div class="col">
+              <img
+                src="./Assets/91Ph+uTyyxL._AC_SL1500_.jpg"
+                class="img-fluid"
+                alt="Queen"
+              />
+            </div>
+            <div class="col">
+              <img
+                src="./Assets/91Ph+uTyyxL._AC_SL1500_.jpg"
+                class="img-fluid"
+                alt="Queen"
+              />
+            </div>
+            <div class="col">
+              <img
+                src="./Assets/91Ph+uTyyxL._AC_SL1500_.jpg"
+                class="img-fluid"
+                alt="Queen"
+              />
+            </div>
+            <div class="col">
+              <img
+                src="./Assets/91Ph+uTyyxL._AC_SL1500_.jpg"
+                class="img-fluid"
+                alt="Queen"
+              />
+            </div>
+            <div class="col">
+              <img
+                src="./Assets/91Ph+uTyyxL._AC_SL1500_.jpg"
+                class="img-fluid"
+                alt="Queen"
+              />
+            </div>
+          </div>
+          <button type="button" class="btn btn-primary">Nascondi</button>
+        </div>
+      </section>
+    </main>
+    <footer>
+      <div class="container">
+        <hr />
+        <div class="card">
+          <div class="card-header">Web Site by Luca Calvani</div>
+          <div class="card-body">
+            <blockquote class="blockquote mb-0">
+              <p>Album contenuti nella pagina:</p>
+              <footer class="blockquote-footer">
+                Someone famous in <cite title="Source Title">Source Title</cite>
+              </footer>
+            </blockquote>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <script src="./bootstrap-5.2.3-dist/js/bootstrap.bundle.js"></script>
+    <script src="./Script.js"></script>
+  </body>
+</html>
